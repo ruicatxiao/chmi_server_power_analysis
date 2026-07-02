@@ -241,34 +241,6 @@
 
 ---
 
-## 📊 Figures & Visualizations
-
-### Server A Visualizations
-
-| # | Figure | Preview |
-|---|--------|---------|
-| 1 | Time Series | [![Preview](figures_server_a/fig1_time_series.png)](figures_server_a/fig1_time_series.png) |
-| 2 | Hourly Box Plot | [![Preview](figures_server_a/fig2_hourly_boxplot.png)](figures_server_a/fig2_hourly_boxplot.png) |
-| 3 | Weekday Comparison | [![Preview](figures_server_a/fig3_weekday_comparison.png)](figures_server_a/fig3_weekday_comparison.png) |
-| 4 | Monthly Trend | [![Preview](figures_server_a/fig4_monthly_trend.png)](figures_server_a/fig4_monthly_trend.png) |
-| 5 | Load Distribution | [![Preview](figures_server_a/fig5_load_distribution.png)](figures_server_a/fig5_load_distribution.png) |
-| 6 | Peak Events | [![Preview](figures_server_a/fig6_peak_events.png)](figures_server_a/fig6_peak_events.png) |
-| 7 | Cumulative Energy | [![Preview](figures_server_a/fig7_cumulative_energy.png)](figures_server_a/fig7_cumulative_energy.png) |
-
-### Server B Visualizations
-
-| # | Figure | Preview |
-|---|--------|---------|
-| 1 | Time Series | [![Preview](figures_server_b/fig1_time_series.png)](figures_server_b/fig1_time_series.png) |
-| 2 | Hourly Box Plot | [![Preview](figures_server_b/fig2_hourly_boxplot.png)](figures_server_b/fig2_hourly_boxplot.png) |
-| 3 | Weekday Comparison | [![Preview](figures_server_b/fig3_weekday_comparison.png)](figures_server_b/fig3_weekday_comparison.png) |
-| 4 | Monthly Trend | [![Preview](figures_server_b/fig4_monthly_trend.png)](figures_server_b/fig4_monthly_trend.png) |
-| 5 | Load Distribution | [![Preview](figures_server_b/fig5_load_distribution.png)](figures_server_b/fig5_load_distribution.png) |
-| 6 | Peak Events | [![Preview](figures_server_b/fig6_peak_events.png)](figures_server_b/fig6_peak_events.png) |
-| 7 | Cumulative Energy | [![Preview](figures_server_b/fig7_cumulative_energy.png)](figures_server_b/fig7_cumulative_energy.png) |
-
----
-
 ## 📅 Historical Data
 
 ### Monthly Energy Breakdown
