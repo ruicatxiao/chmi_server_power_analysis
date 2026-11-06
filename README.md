@@ -41,7 +41,7 @@ git push -u origin main
 # Then enable GitHub Pages for the repo root
 ```
 
-The `index.html` landing page links to every figure, dashboard, and animation.
+The `index.html` landing page links to every figure, dashboard, and animation. Each item is displayed **one per row** with a live preview, and the written report is rendered as a styled HTML page at `report/index.html`.
 
 ---
 
@@ -61,11 +61,16 @@ server_power_analysis/
 │   ├── make_animations.py     # MP4 animations   → animations/
 │   ├── compute_stats.py       # Headline stats   → data/summary_stats.json
 │   ├── explore.py             # Early EDA / profiling script
-│   └── preview_*.py           # Playwright preview/QA helpers
+│   ├── build_report.py        # Render report/analysis_report.md → report/index.html
+│   ├── shot_dashboards.py     # Capture live previews of each dashboard
+│   └── test_site.py           # Playwright QA (broken-image / poster checks)
 ├── figures/                   # PNG static figures (01–12)
 ├── interactive/               # Standalone HTML dashboards
 ├── animations/                # MP4 animations
-└── report/                    # Written analysis report (markdown)
+├── previews/                  # Live previews (dashboard screenshots + video posters)
+└── report/                    # Written analysis report
+    ├── analysis_report.md     #   Markdown source
+    └── index.html             #   Rendered HTML page (on the showcase)
 ```
 
 ---
@@ -193,7 +198,22 @@ pip install pandas numpy matplotlib seaborn scipy statsmodels plotly
 
 ## 📝 Report
 
-See [`report/analysis_report.md`](report/analysis_report.md) for the full written analysis.
+The full written analysis is rendered as a styled page on the showcase: **[`report/index.html`](report/index.html)**.
+
+The Markdown source is at [`report/analysis_report.md`](report/analysis_report.md). To regenerate the HTML page:
+
+```bash
+python3 src/build_report.py
+```
+
+### Live previews (`previews/`)
+
+The landing page shows a live preview for **every** item:
+
+- **Interactive dashboards** — real Plotly screenshots (`previews/00_dashboard.jpg`, etc.), captured with Playwright via `src/shot_dashboards.py`.
+- **Animations** — a poster frame from each MP4 (`previews/01_power_sweep.jpg`, etc.), extracted with `ffmpeg`.
+
+These give a visual at-a-glance before you click through.
 
 ---
 

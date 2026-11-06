@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CHMI Server Power — Analysis Report — CHMI Server Power Analysis</title>
+  <style>
+    :root {
+      --bg: #0a0e17;
+      --panel: #121724;
+      --panel2: #171d2d;
+      --accent: #4fc3f7;
+      --accent2: #ff7a7a;
+      --text: #e8edf5;
+      --muted: #93a0b5;
+      --border: #232c40;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg); color: var(--text); line-height: 1.7; padding-bottom: 4rem;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .hero {
+      background: linear-gradient(135deg, #0f1c33 0%, #0a0e17 60%);
+      border-bottom: 1px solid var(--border); padding: 3rem 2rem 2.5rem; text-align: center;
+    }
+    .hero h1 {
+      font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em;
+      background: linear-gradient(90deg, var(--accent), #8be0ff, var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .hero .sub { color: var(--muted); margin-top: 0.6rem; }
+    .hero .back {
+      display: inline-block; margin-top: 1.2rem; background: var(--panel); color: var(--accent);
+      border: 1px solid var(--border); padding: 0.5rem 1.1rem; border-radius: 999px; font-size: 0.9rem;
+    }
+    .hero .back:hover { text-decoration: none; border-color: var(--accent); }
+    .container { max-width: 860px; margin: 0 auto; padding: 2.5rem 1.5rem; }
+    .prose h2 {
+      font-size: 1.5rem; margin: 2.2rem 0 0.8rem; color: var(--text);
+      border-left: 4px solid var(--accent); padding-left: 0.8rem;
+    }
+    .prose h3 { font-size: 1.15rem; margin: 1.6rem 0 0.5rem; color: var(--text); }
+    .prose p { margin: 0.8rem 0; }
+    .prose ul, .prose ol { margin: 0.8rem 0; padding-left: 1.5rem; }
+    .prose li { margin: 0.3rem 0; }
+    .prose strong { color: #fff; }
+    .prose em { color: var(--muted); }
+    .prose hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+    .prose blockquote {
+      border-left: 3px solid var(--accent); background: var(--panel); padding: 0.8rem 1.2rem;
+      margin: 1rem 0; border-radius: 0 8px 8px 0; color: var(--muted);
+    }
+    .table-wrap { overflow-x: auto; margin: 1.2rem 0; }
+    table {
+      width: 100%; border-collapse: collapse; background: var(--panel);
+      border: 1px solid var(--border); border-radius: 10px; overflow: hidden; font-size: 0.92rem;
+    }
+    th, td { padding: 0.6rem 0.9rem; text-align: left; border-bottom: 1px solid var(--border); }
+    th { background: var(--panel2); color: var(--accent); font-weight: 700; }
+    tr:last-child td { border-bottom: none; }
+    td:first-child, th:first-child { color: var(--muted); }
+    code { background: var(--panel2); color: #8be0ff; padding: 0.15rem 0.4rem; border-radius: 5px; font-size: 0.9em; }
+    .footer { text-align: center; color: var(--muted); font-size: 0.85rem; margin-top: 3rem; }
+  </style>
+</head>
+<body>
+  <div class="hero">
+    <h1>CHMI Server Power — Analysis Report</h1>
+    <div class="sub">Comprehensive exploratory analysis · CHMI Server A &amp; B hourly power/load logs</div>
+    <a class="back" href="../index.html">← Back to showcase</a>
+  </div>
+  <div class="container">
+    <div class="prose">
+      
+<p><strong>Prepared:</strong> 2026-11-05 · <strong>Data window:</strong> 2025-10-07 14:00 → 2026-11-05 15:00 (≈13 months, hourly)</p>
+<hr />
+<h2 id="1-overview">1. Overview</h2>
+<p>Two hourly power/load logs were provided — one for <strong>CHMI Server A</strong> and one for <strong>CHMI Server B</strong>. Each record contains a <code>load</code> index sampled once per hour. This report summarizes a comprehensive exploratory analysis of the pair, including time-series structure, distributions, diurnal and seasonal patterns, cross-server relationships, and a relative energy comparison.</p>
+<blockquote>
+<p><strong>Units.</strong> The <code>load</code> column is an arbitrary <em>load index</em>, not a calibrated wattage. All figures compare the two servers on a relative basis; "energy" below is a <em>relative energy index</em> = Σ(load × 1 h), not absolute kWh.</p>
+</blockquote>
+<hr />
+<h2 id="2-data-quality-preprocessing">2. Data quality &amp; preprocessing</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Server A</th>
+<th>Server B</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Raw rows</td>
+<td>9,421</td>
+<td>9,340</td>
+</tr>
+<tr>
+<td>Clean hourly records</td>
+<td>9,458</td>
+<td>9,457</td>
+</tr>
+<tr>
+<td>Start</td>
+<td>2025-10-07 14:00</td>
+<td>2025-10-07 15:00</td>
+</tr>
+<tr>
+<td>End</td>
+<td>2026-11-05 15:00</td>
+<td>2026-11-05 15:00</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li><strong>DST duplicates.</strong> On the fall-back days (<code>2025-11-02</code> and <code>2026-11-01</code>), the 01:00 wall-clock hour appears twice. These were <strong>averaged</strong> — the physically sensible resolution for a single hour.</li>
+<li><strong>Gaps.</strong> A small number of hours are missing (39 for A, 119 for B), including a few multi-day windows (e.g. mid-May 2026). These were <strong>linearly interpolated</strong> to produce a continuous, animation-friendly series.</li>
+<li>After cleaning, the series are continuous at hourly resolution.</li>
+</ul>
+<hr />
+<h2 id="3-headline-statistics">3. Headline statistics</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Server A</th>
+<th>Server B</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mean load</td>
+<td><strong>295</strong></td>
+<td><strong>462</strong></td>
+</tr>
+<tr>
+<td>Median load</td>
+<td>279</td>
+<td>459</td>
+</tr>
+<tr>
+<td>Std dev</td>
+<td>103</td>
+<td>76</td>
+</tr>
+<tr>
+<td>Minimum</td>
+<td>135</td>
+<td>315</td>
+</tr>
+<tr>
+<td>Maximum</td>
+<td>621</td>
+<td>1035</td>
+</tr>
+<tr>
+<td>1st percentile</td>
+<td>162</td>
+<td>342</td>
+</tr>
+<tr>
+<td>99th percentile</td>
+<td>558</td>
+<td>711</td>
+</tr>
+<tr>
+<td>Peak hour (mean)</td>
+<td>midday</td>
+<td>midday</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Cross-server comparison (on 9,457 aligned hours):</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mean difference (B − A)</td>
+<td><strong>+167</strong></td>
+</tr>
+<tr>
+<td>Median difference (B − A)</td>
+<td>+176</td>
+</tr>
+<tr>
+<td>% of hours B &gt; A</td>
+<td><strong>90.1%</strong></td>
+</tr>
+<tr>
+<td>Mean ratio (B / A)</td>
+<td><strong>1.57×</strong></td>
+</tr>
+<tr>
+<td>Cumulative energy ratio (B / A)</td>
+<td><strong>1.57×</strong></td>
+</tr>
+<tr>
+<td>Pearson r</td>
+<td>0.048</td>
+</tr>
+<tr>
+<td>Spearman ρ</td>
+<td>−0.008</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Interpretation.</strong> Server B runs a systematically <strong>~57% higher</strong> baseline load than Server A and is the higher of the two about <strong>90% of the time</strong>. Yet the two servers are <strong>essentially uncorrelated</strong> (r ≈ 0.05). This tells us their workloads are <strong>independent</strong> — they do not rise and fall together.</p>
+<hr />
+<h2 id="4-time-series-structure">4. Time-series structure</h2>
+<ul>
+<li>Both servers show a <strong>sustained, slowly-varying baseline</strong> with substantial <strong>hour-to-hour volatility</strong> superimposed.</li>
+<li>The 7-day rolling mean reveals <strong>slow multi-week oscillations</strong> (likely weekly/fortnightly workload cycles) rather than a monotonic trend.</li>
+<li>Server B's rolling mean is consistently above Server A's throughout the record; the gap narrows slightly around mid-2026 but remains positive.</li>
+</ul>
+<hr />
+<h2 id="5-distribution">5. Distribution</h2>
+<ul>
+<li><strong>Server A is clearly bimodal.</strong> There is a low "idle" mode around 170–190 and a higher "active" mode around 280–300. This suggests the server alternates between two distinct operating states.</li>
+<li><strong>Server B is unimodal</strong> and tightly concentrated around ~450–470, with a long right tail (outliers up to ~1035, e.g. heavy burst loads).</li>
+<li>Server A's wider spread (std 103 vs 76) reflects its bimodality; Server B's tighter core reflects a more stable but higher baseline.</li>
+</ul>
+<hr />
+<h2 id="6-diurnal-time-of-day-pattern">6. Diurnal (time-of-day) pattern</h2>
+<ul>
+<li>Both servers peak <strong>around midday (10:00–15:00)</strong> and trough overnight.</li>
+<li><strong>Weekday load &gt; weekend load</strong> for both. The weekday/weekend gap is most visible for Server A.</li>
+<li>The <strong>hour-of-day × weekday heatmap</strong> shows the classic "workweek" pattern: bright (high load) on weekdays mid-day, darker on weekends and overnight.</li>
+</ul>
+<hr />
+<h2 id="7-seasonal-pattern">7. Seasonal pattern</h2>
+<ul>
+<li>Monthly mean loads show a <strong>weak seasonal signature</strong>; there is no dramatic winter/summer swing, but there are month-to-month variations.</li>
+<li>The <strong>calendar heatmap</strong> (month × day) reveals <strong>short, high-load episodes</strong> (bright horizontal bands) that are more pronounced for Server B — likely specific multi-day bursts of heavy computation.</li>
+</ul>
+<hr />
+<h2 id="8-cross-server-relationship">8. Cross-server relationship</h2>
+<ul>
+<li>A scatter of Server A vs Server B (aligned timestamps) shows a <strong>diffuse cloud</strong> with <strong>no strong linear or monotonic relationship</strong> (r ≈ 0.05, ρ ≈ 0).</li>
+<li>The <strong>difference series (B − A)</strong> is mostly positive and stable, reinforcing that the gap between the servers is structural rather than a shared, synchronous workload.</li>
+<li><strong>Practical implication:</strong> total system power draw does <strong>not</strong> simply double with a second server of similar type; the two servers are driven by independent workloads.</li>
+</ul>
+<hr />
+<h2 id="9-energy-footprint">9. Energy footprint</h2>
+<ul>
+<li>The <strong>cumulative load·hours</strong> (relative energy index) shows Server B accumulating energy at a <strong>~57% higher rate</strong> than Server A.</li>
+<li>Because the two servers are uncorrelated, combining them produces a <strong>more stable aggregate</strong> load profile than either server alone (diversification), which is useful for capacity planning.</li>
+</ul>
+<hr />
+<h2 id="10-conclusions-recommendations">10. Conclusions &amp; recommendations</h2>
+<ol>
+<li><strong>Server B is the higher-consumption unit</strong> (~1.57× Server A). If consolidation or load-balancing is a goal, B is the first candidate to examine.</li>
+<li><strong>Independent workloads.</strong> The near-zero correlation means neither server's load can be used to predict the other's. Any predictive model should treat them separately.</li>
+<li><strong>Diurnal optimization.</strong> Both servers idle overnight and peak mid-day. If power is a constraint, consider <strong>scheduling heavy jobs to off-peak hours</strong> or <strong>right-sizing</strong> the machines to the observed baseline.</li>
+<li><strong>Server A's bimodality</strong> suggests an opportunity to <strong>consolidate</strong> its low-load idle periods — it may be running two distinct workload classes.</li>
+<li><strong>Data caveat.</strong> Since <code>load</code> is an uncalibrated index, absolute power (W or kWh) cannot be derived. Pairing these logs with a known PSU/PDU wattage would enable true energy and cost estimates.</li>
+</ol>
+<hr />
+<p><em>Generated by CHMI-LLM · University of Pennsylvania · 2026-11-05</em></p>
+    </div>
+    <div class="footer">Generated by CHMI-LLM · University of Pennsylvania · 2026-11-05</div>
+  </div>
+</body>
+</html>
