@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CHMI Server Power Analysis</title>
+  <style>
+    :root {
+      --bg: #0a0e17;
+      --panel: #121724;
+      --panel2: #171d2d;
+      --accent: #4fc3f7;
+      --accent2: #ff7a7a;
+      --text: #e8edf5;
+      --muted: #93a0b5;
+      --border: #232c40;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding-bottom: 4rem;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .hero {
+      background: linear-gradient(135deg, #0f1c33 0%, #0a0e17 60%);
+      border-bottom: 1px solid var(--border);
+      padding: 4rem 2rem 3rem;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: 2.8rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(90deg, var(--accent), #8be0ff, var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero .sub {
+      color: var(--muted);
+      margin-top: 0.6rem;
+      font-size: 1.15rem;
+    }
+    .hero .meta {
+      display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center;
+      margin-top: 1.5rem; color: var(--muted); font-size: 0.95rem;
+    }
+    .hero .meta span { background: var(--panel); padding: 0.4rem 0.9rem; border-radius: 999px; border: 1px solid var(--border); }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+    h2 {
+      font-size: 1.6rem; margin: 2.5rem 0 0.5rem; color: var(--text);
+      border-left: 4px solid var(--accent); padding-left: 0.8rem;
+    }
+    h2 .num { color: var(--accent); font-weight: 700; margin-right: 0.4rem; }
+    p.lead { color: var(--muted); margin-bottom: 1.2rem; }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1.2rem;
+      margin-top: 1.2rem;
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,0,0,0.4); }
+    .card img, .card video { width: 100%; display: block; background: #0d111c; }
+    .card .body { padding: 0.9rem 1rem 1rem; }
+    .card .body h3 { font-size: 1.02rem; margin-bottom: 0.3rem; }
+    .card .body p { color: var(--muted); font-size: 0.85rem; }
+    .card .body .tag {
+      display: inline-block; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em;
+      padding: 0.15rem 0.5rem; border-radius: 6px; margin-top: 0.5rem; font-weight: 700;
+    }
+    .tag-static { background: #12324a; color: var(--accent); }
+    .tag-interactive { background: #3a2a12; color: #ffd28a; }
+    .tag-anim { background: #3a1a22; color: var(--accent2); }
+
+    .stats {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem; margin: 1.5rem 0;
+    }
+    .stat {
+      background: var(--panel2); border: 1px solid var(--border); border-radius: 12px;
+      padding: 1.2rem;
+    }
+    .stat .k { color: var(--muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .stat .v { font-size: 1.7rem; font-weight: 800; margin-top: 0.3rem; }
+    .stat .s { color: var(--muted); font-size: 0.8rem; margin-top: 0.2rem; }
+    .stat .v.a { color: var(--accent); }
+    .stat .v.b { color: var(--accent2); }
+
+    .btn {
+      display: inline-block; background: var(--accent); color: #06121f; font-weight: 700;
+      padding: 0.6rem 1.2rem; border-radius: 8px; margin: 0.3rem 0.2rem 0.3rem 0; font-size: 0.9rem;
+    }
+    .btn:hover { text-decoration: none; filter: brightness(1.1); }
+    .btn.alt { background: var(--accent2); }
+    .footer { text-align: center; color: var(--muted); font-size: 0.85rem; margin-top: 3rem; }
+  </style>
+</head>
+<body>
+  <div class="hero">
+    <h1>CHMI Server Power Analysis</h1>
+    <div class="sub">Hourly load telemetry for <strong>CHMI Server A</strong> &amp; <strong>CHMI Server B</strong></div>
+    <div class="meta">
+      <span>📅 2025-10-07 → 2026-11-05</span>
+      <span>⏱️ Hourly resolution</span>
+      <span>📊 9,458 records / server</span>
+      <span>🔬 13 static figures · 7 dashboards · 5 animations</span>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <h2><span class="num">01</span>Headline numbers</h2>
+    <p class="lead">Key metrics computed over the full aligned record.</p>
+    <div class="stats">
+      <div class="stat"><div class="k">Mean load — A</div><div class="v a">295</div><div class="s">index units</div></div>
+      <div class="stat"><div class="k">Mean load — B</div><div class="v b">462</div><div class="s">index units</div></div>
+      <div class="stat"><div class="k">B / A mean ratio</div><div class="v">1.57×</div><div class="s">B is ~57% higher</div></div>
+      <div class="stat"><div class="k">% of time B &gt; A</div><div class="v">90.1%</div><div class="s">independent workloads</div></div>
+      <div class="stat"><div class="k">Correlation (r)</div><div class="v">0.05</div><div class="s">essentially uncorrelated</div></div>
+      <div class="stat"><div class="k">Cumulative energy</div><div class="v b">1.57×</div><div class="s">B vs A (relative)</div></div>
+    </div>
+
+    <h2><span class="num">02</span>Interactive dashboards</h2>
+    <p class="lead">Self-contained HTML — open directly in your browser. Hover, zoom, and pan.</p>
+    <div class="cards">
+      <a class="card" href="interactive/00_dashboard.html" target="_blank">
+        <img src="figures/01_full_timeseries.png" alt="dashboard" />
+        <div class="body"><h3>Master dashboard</h3><p>Multi-panel overview of both servers.</p><span class="tag tag-interactive">Interactive</span></div>
+      </a>
+      <a class="card" href="interactive/01_interactive_timeseries.html" target="_blank">
+        <div class="body"><h3>Time series explorer</h3><p>Zoomable series with range buttons and a B−A panel.</p><span class="tag tag-interactive">Interactive</span></div>
+      </a>
+      <a class="card" href="interactive/02_heatmap_hour_weekday.html" target="_blank">
+        <div class="body"><h3>Hour × weekday heatmap</h3><p>Interactive diurnal heatmaps.</p><span class="tag tag-interactive">Interactive</span></div>
+      </a>
+      <a class="card" href="interactive/03_hourly_box.html" target="_blank">
+        <div class="body"><h3>Per-hour box plots</h3><p>Load distribution by hour of day.</p><span class="tag tag-interactive">Interactive</span></div>
+      </a>
+      <a class="card" href="interactive/04_3d_surface.html" target="_blank">
+        <div class="body"><h3>3D surface</h3><p>Hour × month load surface.</p><span class="tag tag-interactive">Interactive</span></div>
+      </a>
+      <a class="card" href="interactive/05_distribution.html" target="_blank">
+        <div class="body"><h3>Distribution explorer</h3><p>Histogram + KDE overlay.</p><span class="tag tag-interactive">Interactive</span></div>
+      </a>
+      <a class="card" href="interactive/06_monthly_violin.html" target="_blank">
+        <div class="body"><h3>Monthly violins</h3><p>Distribution by month.</p><span class="tag tag-interactive">Interactive</span></div>
+      </a>
+    </div>
+
+    <h2><span class="num">03</span>Animations</h2>
+    <p class="lead">MP4 clips — the record reveals itself over time.</p>
+    <div class="cards">
+      <div class="card">
+        <video src="animations/01_power_sweep.mp4" controls muted loop playsinline></video>
+        <div class="body"><h3>Data accumulation</h3><p>Hourly load with 7-day mean, building up over the full record.</p><span class="tag tag-anim">Animation</span></div>
+      </div>
+      <div class="card">
+        <video src="animations/02_hour_clock.mp4" controls muted loop playsinline></video>
+        <div class="body"><h3>Day clock</h3><p>Average load as a spinning polar dial (weekday &amp; weekend).</p><span class="tag tag-anim">Animation</span></div>
+      </div>
+      <div class="card">
+        <video src="animations/03_heatmap_evolve.mp4" controls muted loop playsinline></video>
+        <div class="body"><h3>Heatmap evolution</h3><p>Hour×weekday heatmap building month by month.</p><span class="tag tag-anim">Animation</span></div>
+      </div>
+      <div class="card">
+        <video src="animations/04_calendar_fill.mp4" controls muted loop playsinline></video>
+        <div class="body"><h3>Calendar fill</h3><p>January daily means, revealed day by day.</p><span class="tag tag-anim">Animation</span></div>
+      </div>
+      <div class="card">
+        <video src="animations/05_distribution_evolve.mp4" controls muted loop playsinline></video>
+        <div class="body"><h3>Distribution evolution</h3><p>KDE growing as data accumulates.</p><span class="tag tag-anim">Animation</span></div>
+      </div>
+    </div>
+
+    <h2><span class="num">04</span>Static figures</h2>
+    <p class="lead">Publication-quality PNGs (12 in total).</p>
+    <div class="cards">
+      <a class="card" href="figures/01_full_timeseries.png" target="_blank"><img src="figures/01_full_timeseries.png" alt=""><div class="body"><h3>Full time series</h3><p>Hourly + 7-day mean + deviations.</p><span class="tag tag-static">Figure</span></div></a>
+      <a class="card" href="figures/02_overlay_timeseries.png" target="_blank"><img src="figures/02_overlay_timeseries.png" alt=""><div class="body"><h3>Overlay time series</h3><p>Both servers together.</p><span class="tag tag-static">Figure</span></div></a>
+      <a class="card" href="figures/03_distribution.png" target="_blank"><img src="figures/03_distribution.png" alt=""><div class="body"><h3>Distribution</h3><p>Histogram + KDE + box.</p><span class="tag tag-static">Figure</span></div></a>
+      <a class="card" href="figures/04_daily_profile.png" target="_blank"><img src="figures/04_daily_profile.png" alt=""><div class="body"><h3>Daily profile</h3><p>Weekday vs weekend.</p><span class="tag tag-static">Figure</span></div></a>
+      <a class="card" href="figures/05_heatmap_hour_weekday.png" target="_blank"><img src="figures/05_heatmap_hour_weekday.png" alt=""><div class="body"><h3>Hour × weekday heatmap</h3><p>Diurnal structure.</p><span class="tag tag-static">Figure</span></div></a>
+      <a class="card" href="figures/06_monthly_seasonal.png" target="_blank"><img src="figures/06_monthly_seasonal.png" alt=""><div class="body"><h3>Monthly &amp; seasonal</h3><p>Monthly means + seasons.</p><span class="tag tag-static">Figure</span></div></a>
+      <a class="card" href="figures/07_calendar_heatmap_A.png" target="_blank"><img src="figures/07_calendar_heatmap_A.png" alt=""><div class="body"><h3>Calendar A</h3><p>Month × day heatmap.</p><span class="tag tag-static">Figure</span></div></a>
+      <a class="card" href="figures/07_calendar_heatmap_B.png" target="_blank"><img src="figures/07_calendar_heatmap_B.png" alt=""><div class="body"><h3>Calendar B</h3><p>Month × day heatmap.</p><span class="tag tag-static">Figure</span></div></a>
+      <a class="card" href="figures/08_violin_month.png" target="_blank"><img src="figures/08_violin_month.png" alt=""><div class="body"><h3>Monthly violins</h3><p>Distribution by month.</p><span class="tag tag-static">Figure</span></div></a>
+      <a class="card" href="figures/09_ab_scatter.png" target="_blank"><img src="figures/09_ab_scatter.png" alt=""><div class="body"><h3>A vs B scatter</h3><p>Correlation check.</p><span class="tag tag-static">Figure</span></div></a>
+      <a class="card" href="figures/10_difference_over_time.png" target="_blank"><img src="figures/10_difference_over_time.png" alt=""><div class="body"><h3>B − A difference</h3><p>Gap over time.</p><span class="tag tag-static">Figure</span></div></a>
+      <a class="card" href="figures/11_cumulative_energy.png" target="_blank"><img src="figures/11_cumulative_energy.png" alt=""><div class="body"><h3>Cumulative energy</h3><p>Relative energy footprint.</p><span class="tag tag-static">Figure</span></div></a>
+    </div>
+
+    <h2><span class="num">05</span>Written analysis &amp; reproducibility</h2>
+    <p class="lead">Full findings, methodology, and how to regenerate everything.</p>
+    <div style="margin-top:0.5rem;">
+      <a class="btn" href="report/analysis_report.md" target="_blank">📄 Read the analysis report</a>
+      <a class="btn alt" href="README.md" target="_blank">📘 Repo README &amp; deploy guide</a>
+    </div>
+
+    <div class="footer">
+      Generated by CHMI-LLM · University of Pennsylvania · 2026-11-05 ·
+      Data: CHMI Server A &amp; B hourly power logs · Load is an uncalibrated index.
+    </div>
+  </div>
+</body>
+</html>

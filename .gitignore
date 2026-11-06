@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Build / intermediate
+build/
+dist/
+*.log
+
+# Notebooks checkpoints
+.ipynb_checkpoints/
+
+# Keep the generated artifacts but ignore large temp caches
+*.npy
+*.pkl
+*.joblib
